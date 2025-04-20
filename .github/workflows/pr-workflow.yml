@@ -1,0 +1,22 @@
+name: PR Status Workflow
+
+on:
+  pull_request:
+    types:
+      - opened
+      - closed
+
+jobs:
+  handle-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print PR status
+        run: |
+          if [ "${{ github.event.action }}" = "opened" ]; then
+            echo "PR raised"
+          elif [ "${{ github.event.action }}" = "closed" ] && [ "${{ github.event.pull_request.merged }}" = "true" ]; then
+            echo "PR merged"
+          else
+            echo "PR closed without merge"
+          fi
